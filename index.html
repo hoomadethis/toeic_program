@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ff5b68">
+<title>MERRY TOEIC</title>
+<style>
+:root{
+  --bg:#f7f8fb;--card:#fff;--ink:#15171a;--muted:#747982;
+  --line:#e5e7ed;--accent:#ff5b68;--shadow:0 14px 36px rgba(26,31,44,.075)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;color:var(--ink);
+  background:linear-gradient(180deg,#fff5f6 0,#f8f8fb 48%,#f3f4f7 100%);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",Arial,sans-serif
+}
+.wrap{width:min(1180px,calc(100% - 40px));margin:0 auto;padding:22px 0 34px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:34px}
+.brand{font-size:18px;font-weight:950;letter-spacing:-.4px}
+.pill{font-size:10px;font-weight:900;background:#17191d;color:#fff;padding:7px 11px;border-radius:999px;letter-spacing:.04em}
+.hero{margin-bottom:22px}
+.eyebrow{font-size:11px;font-weight:950;color:var(--accent);letter-spacing:.14em;margin-bottom:8px}
+h1{font-size:clamp(38px,5vw,58px);line-height:1.02;letter-spacing:-3px;margin:0 0 12px}
+.hero p{margin:0;max-width:780px;color:var(--muted);font-size:14px;line-height:1.65}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.card{
+  position:relative;display:block;min-height:175px;padding:20px 22px 58px;
+  text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);
+  border-radius:20px;box-shadow:var(--shadow);transition:.16s ease
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(26,31,44,.10)}
+.num{font-size:11px;font-weight:900;color:#7d828b;margin-bottom:24px;letter-spacing:.02em}
+.card h2{font-size:25px;letter-spacing:-1px;margin:0 0 7px}
+.card p{margin:0;max-width:470px;color:var(--muted);font-size:13px;line-height:1.55}
+.go{
+  position:absolute;right:18px;bottom:17px;width:38px;height:38px;display:grid;place-items:center;
+  border-radius:50%;background:#17191d;color:#fff;font-size:18px
+}
+.card:nth-child(1) .go{background:var(--accent)}
+.card:nth-child(4){background:#17191d;color:#fff;border-color:#17191d}
+.card:nth-child(4) .num,.card:nth-child(4) p{color:#bfc3ca}
+.card:nth-child(4) .go{background:#fff;color:#17191d}
+@media(max-width:700px){
+  .wrap{width:min(100% - 22px,1180px);padding-top:17px}.top{margin-bottom:28px}
+  h1{letter-spacing:-2px}.hero{margin-bottom:18px}.grid{grid-template-columns:1fr}
+  .card{min-height:165px}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="top">
+    <div class="brand">MERRY TOEIC</div>
+    <div class="pill">STUDY</div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">CHOOSE YOUR STUDY</div>
+    <h1>오늘은 무엇을 공부할까요?</h1>
+    <p>어휘 조합 퀴즈, DAY별 단어 테스트, 전접부 챌린지와 TOEIC 문법 강의를 한 곳에서 이용할 수 있습니다.</p>
+  </section>
+
+  <section class="grid">
+    <a class="card" href="vocab-chemistry.html">
+      <div class="num">01 · VOCAB CHEMISTRY</div>
+      <h2>어휘 케미</h2>
+      <p>동사+명사, 부사+형용사 등 자주 함께 쓰이는 TOEIC 어휘 조합을 4지선다로 학습합니다.</p>
+      <span class="go">→</span>
+    </a>
+
+    <a class="card" href="word-test.html">
+      <div class="num">02 · WORD TEST</div>
+      <h2>단어 테스트</h2>
+      <p>TOEIC 700·850 단어를 DAY와 문제 수에 맞춰 출제하고 직접 답을 입력해 채점합니다.</p>
+      <span class="go">→</span>
+    </a>
+
+    <a class="card" href="prep-conj-challenge.html">
+      <div class="num">03 · PART 5 CHALLENGE</div>
+      <h2>전접부 챌린지</h2>
+      <p>전치사·접속사·접속부사를 빠르게 분류하고 실제 TOEIC형 빈칸 문제까지 이어서 풉니다.</p>
+      <span class="go">→</span>
+    </a>
+
+    <a class="card" href="classroom.html">
+      <div class="num">04 · CLASSROOM</div>
+      <h2>강의실</h2>
+      <p>TOEIC 핵심 문법 강의를 주제별로 확인하고 원하는 강의를 YouTube에서 바로 시청합니다.</p>
+      <span class="go">→</span>
+    </a>
+  </section>
+</main>
+</body>
+</html>

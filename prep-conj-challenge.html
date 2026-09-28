@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#63F2BE">
+<meta name="description" content="MERRY TOEIC 전치사·접속사·접속부사 챌린지">
+<title>MERRY TOEIC | 전접부 챌린지</title>
+<style>
+:root{
+  --bg:#f7f8fb;
+  --card:#ffffff;
+  --ink:#17191d;
+  --gray:#737982;
+  --line:#e6e8ee;
+  --pink:#ff5b68;
+  --pink-soft:#fff0f2;
+  --mint:#63F2BE;
+  --mint-dark:#19936b;
+  --yellow:#ffd86b;
+  --blue:#6f8cff;
+  --shadow:0 16px 46px rgba(24,30,42,.09);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 15% 0%,rgba(99,242,190,.24),transparent 28%),
+    radial-gradient(circle at 100% 6%,rgba(255,91,104,.18),transparent 30%),
+    linear-gradient(180deg,#fff 0,#f7f8fb 42%,#f3f5f8 100%);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",Arial,sans-serif;
+}
+button{font:inherit}
+.site-nav{
+  width:min(760px,calc(100% - 28px));
+  margin:14px auto 0;
+  display:flex;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.site-nav a{
+  display:inline-flex;align-items:center;
+  text-decoration:none;color:#555b64;background:#fff;
+  border:1px solid var(--line);border-radius:999px;
+  padding:8px 12px;font-size:12px;font-weight:850;
+  box-shadow:0 4px 14px rgba(20,25,35,.04)
+}
+.site-nav a.active{background:#17191d;color:#fff;border-color:#17191d}
+#app{
+  width:min(680px,calc(100% - 28px));
+  margin:0 auto;
+  padding:22px 0 68px;
+}
+.screen{display:none}
+.screen.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+#start,#mid,#result{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--line);
+  border-radius:28px;
+  box-shadow:var(--shadow);
+  padding:30px 26px;
+  text-align:center;
+}
+.badge{
+  display:inline-flex;align-items:center;
+  padding:7px 10px;border-radius:999px;
+  background:#17191d;color:#fff;
+  font-size:11px;font-weight:900;letter-spacing:.04em;
+}
+h1{
+  margin:16px 0 10px;
+  font-size:clamp(34px,7vw,54px);
+  line-height:1.05;
+  letter-spacing:-2.4px;
+}
+.sub{margin:0 0 6px;color:var(--gray);font-weight:750;line-height:1.65}
+.mesaeng{display:grid;place-items:center;margin:18px auto 12px}
+.bob{animation:bob 2.1s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.pop{animation:pop .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{from{transform:scale(.8);opacity:.2}to{transform:scale(1);opacity:1}}
+.rules{
+  display:grid;gap:9px;
+  margin:18px 0 14px;text-align:left;
+}
+.rules>div{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 12px;border-radius:14px;background:#f8f9fb;border:1px solid var(--line)
+}
+.tag{
+  flex:0 0 auto;
+  min-width:68px;text-align:center;
+  border-radius:999px;padding:6px 9px;
+  color:#fff;font-size:12px;font-weight:950
+}
+.t1{background:#ff8a5b}.t2{background:#6f8cff}.t3{background:#7b65d8}
+.big{
+  width:100%;border:0;border-radius:16px;
+  margin-top:16px;padding:15px 18px;
+  background:var(--pink);color:#fff;
+  font-weight:950;cursor:pointer;
+  box-shadow:0 9px 24px rgba(255,91,104,.24);
+}
+.big.mint{background:var(--mint-dark);box-shadow:0 9px 24px rgba(25,147,107,.18)}
+.hud{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:12px;font-weight:900;margin-bottom:12px
+}
+.score{color:var(--pink)}
+.timerwrap{
+  height:10px;background:#e9ebf0;border-radius:999px;overflow:hidden;margin-bottom:16px
+}
+.timerbar{
+  height:100%;background:linear-gradient(90deg,var(--mint-dark),var(--mint));
+  border-radius:inherit;transition:width .1s linear
+}
+.timerbar.danger{background:linear-gradient(90deg,#ff8d55,#ff5b68)}
+.word{
+  min-height:120px;
+  display:grid;place-items:center;
+  background:#fff;border:1px solid var(--line);border-radius:24px;
+  box-shadow:var(--shadow);
+  padding:22px;
+  font-size:clamp(30px,8vw,52px);
+  font-weight:950;letter-spacing:-1.6px;text-align:center;
+}
+.reveal{
+  display:block;margin-top:10px;
+  font-size:14px;color:var(--pink);font-weight:900;letter-spacing:-.2px
+}
+.mesaeng-mini{display:grid;place-items:center;height:90px}
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.cats button{
+  border:0;border-radius:15px;padding:15px 8px;
+  color:#fff;font-weight:950;cursor:pointer;
+}
+.c1{background:#ff8a5b}.c2{background:#6f8cff}.c3{background:#7b65d8}
+.combo{color:var(--mint-dark);font-weight:950}
+.jump{animation:jump .35s ease}.shake{animation:shake .3s ease}
+@keyframes jump{50%{transform:translateY(-12px)}}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.flash-good{animation:fg .2s}.flash-bad{animation:fbad .2s}
+@keyframes fg{50%{background-color:#ecfff7}}@keyframes fbad{50%{background-color:#fff0f1}}
+#r2{
+  background:#fff;border:1px solid var(--line);border-radius:26px;
+  box-shadow:var(--shadow);padding:24px
+}
+.qnum{font-size:12px;color:var(--gray);font-weight:900;margin:10px 0 8px}
+.q{
+  font-size:23px;line-height:1.55;font-weight:900;letter-spacing:-.55px;
+  margin:12px 0 18px
+}
+.blank{color:var(--pink)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.opts button{
+  min-height:58px;border:1px solid var(--line);border-radius:14px;
+  background:#fff;color:#343941;font-weight:850;cursor:pointer;padding:12px
+}
+.opts button.correct{background:#eaf9f3;border-color:#65c5a0;color:#0f744e}
+.opts button.wrong{background:#fff0f1;border-color:#ea9098;color:#b73540}
+.feedback{
+  min-height:64px;margin-top:16px;border-radius:14px;padding:12px 14px;
+  display:none;font-size:14px;font-weight:850;line-height:1.55
+}
+.feedback.good,.feedback.bad{display:block}
+.feedback.good{background:#edf9f4;color:#147551}
+.feedback.bad{background:#fff0f1;color:#b63743}
+#nextBtn{display:none}
+#mid h2{font-size:28px;line-height:1.35;letter-spacing:-1px;margin:6px 0}
+#mid p{color:var(--gray);line-height:1.75}
+.lvl{font-size:26px;font-weight:950;letter-spacing:-1px}
+.total{font-size:52px;font-weight:950;letter-spacing:-2px;color:var(--pink);margin:5px 0}
+.msg{color:var(--gray);font-weight:750;line-height:1.65}
+.stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:20px 0
+}
+.stats>div{background:#f8f9fb;border:1px solid var(--line);border-radius:14px;padding:12px 6px}
+.stats b{display:block;font-size:20px}.stats span{font-size:10px;color:var(--gray);font-weight:800}
+.wrongbox{text-align:left;background:#fafbfc;border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:14px}
+.wrongbox h3{margin:0 0 10px}.wrongbox .item{font-size:13px;line-height:1.55;padding:9px 0;border-bottom:1px solid var(--line)}
+.wrongbox .item:last-child{border-bottom:0}.wrongbox .a{color:var(--mint-dark);font-weight:900}
+.brand{margin-top:18px;font-size:12px;font-weight:900}.disclaim{margin-top:4px;font-size:10px;color:#9a9ea6}
+@media(max-width:560px){
+  .site-nav{justify-content:center}
+  #app{width:min(100% - 20px,680px);padding-top:16px}
+  #start,#mid,#result,#r2{padding:20px 16px;border-radius:20px}
+  .cats{grid-template-columns:1fr}
+  .opts{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .q{font-size:20px}
+}
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="학습 메뉴">
+  <a href="index.html">홈</a>
+  <a href="vocab-chemistry.html">어휘 케미</a>
+  <a href="word-test.html">단어 테스트</a>
+  <a href="prep-conj-challenge.html" class="active">전접부 챌린지</a>
+  <a href="classroom.html">강의실</a>
+</nav>
+<div id="app">
+
+  <!-- 시작 -->
+  <div id="start" class="screen on">
+    <div class="badge">MERRY TOEIC · Part 5</div>
+    <h1>메생이 전접부 챌린지</h1>
+    <p class="sub">전치사·접속사·접속부사,<br>3초 안에 구분할 수 있어요?</p>
+    <div class="mesaeng bob" id="mesaengStart"><svg width="150" height="150" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><g fill="#63F2BE"><ellipse cx="72" cy="38" rx="30" ry="19" transform="rotate(-28 72 38)"></ellipse><ellipse cx="130" cy="34" rx="32" ry="19" transform="rotate(24 130 34)"></ellipse><rect x="96" y="44" width="9" height="26" rx="4.5"></rect><path d="M100 62 C150 62 168 96 166 132 C164 168 136 190 100 190 C64 190 36 168 34 132 C32 96 50 62 100 62 Z"></path></g><ellipse cx="76" cy="118" rx="7.5" ry="10" fill="#111"></ellipse><ellipse cx="124" cy="112" rx="7.5" ry="10" fill="#111"></ellipse><path d="M87 130 q13 -12 26 0 q2 16 -13 17 q-15 -1 -13 -17z" fill="#F4796B" stroke="#111" stroke-width="6" stroke-linejoin="round"></path></svg></div>
+    <div class="rules">
+      <div><span class="tag t1">전치사</span><span>뒤에 <b>명사</b></span></div>
+      <div><span class="tag t2">접속사</span><span>뒤에 <b>주어 + 동사</b></span></div>
+      <div><span class="tag t3">접속부사</span><span>앞 문장이 <b>끝난 뒤에만</b> (마침표 · 세미콜론)</span></div>
+    </div>
+    <div style="background:#FFF3E6;border-radius:14px;padding:13px 15px;font-size:15px;font-weight:800;color:#C4700A;">
+      ⏱ 단어는 계속 나와요!<br>60초 안에 몇 개나 맞출 수 있는지 보여줘!
+    </div>
+    <button class="big" onclick="startR1()">시작하기</button>
+  </div>
+
+  <!-- 라운드1 -->
+  <div id="r1" class="screen">
+    <div class="hud">
+      <span>ROUND 1 · 스피드 분류</span>
+      <span class="score" id="r1score">0점</span>
+    </div>
+    <div class="timerwrap"><div class="timerbar" id="r1bar" style="width:100%"></div></div>
+    <div class="hud" style="margin-bottom:6px;">
+      <span style="font-size:13px;color:var(--gray);">이 단어의 품사는?</span>
+      <span class="combo" id="r1combo"></span>
+    </div>
+    <div class="word" id="r1word"></div>
+    <div class="mesaeng-mini" id="mesaengR1"></div>
+    <div class="cats">
+      <button class="c1" onclick="answerR1(0)">전치사</button>
+      <button class="c2" onclick="answerR1(1)">접속사</button>
+      <button class="c3" onclick="answerR1(2)">접속부사</button>
+    </div>
+  </div>
+
+  <!-- 인터미션 -->
+  <div id="mid" class="screen">
+    <div class="mesaeng bob" id="mesaengMid"><svg width="150" height="150" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><g fill="#63F2BE"><ellipse cx="72" cy="38" rx="30" ry="19" transform="rotate(-28 72 38)"></ellipse><ellipse cx="130" cy="34" rx="32" ry="19" transform="rotate(24 130 34)"></ellipse><rect x="96" y="44" width="9" height="26" rx="4.5"></rect><path d="M100 62 C150 62 168 96 166 132 C164 168 136 190 100 190 C64 190 36 168 34 132 C32 96 50 62 100 62 Z"></path></g><ellipse cx="76" cy="116" rx="9" ry="11" fill="#111"></ellipse><circle cx="79" cy="112" r="3" fill="#fff"></circle><circle cx="74" cy="120" r="2" fill="#fff"></circle><ellipse cx="124" cy="110" rx="9" ry="11" fill="#111"></ellipse><circle cx="127" cy="106" r="3" fill="#fff"></circle><circle cx="122" cy="114" r="2" fill="#fff"></circle><path d="M88 128 q12 -11 24 0 q1 15 -12 16 q-13 -1 -12 -16z" fill="#F4796B" stroke="#111" stroke-width="6" stroke-linejoin="round"></path></svg></div>
+    <h2>이제 진짜 토익이에요.<br>빈칸 뒤를 보세요 👉</h2>
+    <p>명사가 보이면 <b>전치사</b>,<br>주어+동사가 보이면 <b>접속사</b>,<br>세미콜론 뒤라면 <b>접속부사</b>!</p>
+    <button class="big mint" onclick="startR2()">라운드 2 시작</button>
+  </div>
+
+  <!-- 라운드2 -->
+  <div id="r2" class="screen">
+    <div class="hud">
+      <span>ROUND 2 · 실전 빈칸</span>
+      <span class="score" id="r2score">0점</span>
+    </div>
+    <div class="timerwrap"><div class="timerbar" id="r2bar" style="width:100%"></div></div>
+    <div class="qnum" id="qnum"></div>
+    <div class="q" id="qtext"></div>
+    <div class="opts" id="opts"></div>
+    <div class="feedback" id="fb"></div>
+    <button class="big mint" id="nextBtn" onclick="nextQ()">다음</button>
+  </div>
+
+  <!-- 결과 -->
+  <div id="result" class="screen">
+    <div class="mesaeng bob pop" id="mesaengEnd" style="margin-top:6px;"></div>
+    <div class="lvl" id="lvlTitle"></div>
+    <div class="total" id="totalScore"></div>
+    <div class="msg" id="lvlMsg"></div>
+    <div class="stats">
+      <div><b id="stR1">0</b><span>라운드1</span></div>
+      <div><b id="stR2">0</b><span>라운드2</span></div>
+      <div><b id="stCombo">0</b><span>최대 콤보</span></div>
+      <div><b id="stAcc">0%</b><span>R2 정답률</span></div>
+    </div>
+    <div class="wrongbox" id="wrongbox" style="display:none;">
+      <h3>📝 오답 노트</h3>
+      <div id="wrongList"></div>
+    </div>
+    <button class="big" onclick="restart()">다시 도전하기</button>
+    <div class="brand">메리토익 (Merry TOEIC)</div>
+    <div class="disclaim">* 레벨은 재미로 보는 지표예요. 실제 토익 점수와는 달라요!</div>
+  </div>
+</div>
+
+<script>
+/* ---------- 메생이 SVG ---------- */
+function mesaeng(expr, size, opt){
+  size = size || 150;
+  opt = opt || {};
+  var face = '';
+  if(expr==='happy'){ // 동그란 눈 + 벌린 입
+    face = '<ellipse cx="76" cy="118" rx="7.5" ry="10" fill="#111"/>'
+         + '<ellipse cx="124" cy="112" rx="7.5" ry="10" fill="#111"/>'
+         + '<path d="M87 130 q13 -12 26 0 q2 16 -13 17 q-15 -1 -13 -17z" fill="#F4796B" stroke="#111" stroke-width="6" stroke-linejoin="round"/>';
+  } else if(expr==='wink'){ // >< 눈 + 웃는 입
+    face = '<path d="M62 108 l14 8 l-14 8" fill="none" stroke="#111" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>'
+         + '<path d="M138 104 l-14 8 l14 8" fill="none" stroke="#111" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>'
+         + '<path d="M89 130 q11 -9 22 0 q0 12 -11 12 q-11 0 -11 -12z" fill="#F08A9B" stroke="#111" stroke-width="5.5" stroke-linejoin="round"/>';
+  } else if(expr==='sparkle'){ // 반짝이 눈 + 신난 입
+    face = '<ellipse cx="76" cy="116" rx="9" ry="11" fill="#111"/><circle cx="79" cy="112" r="3" fill="#fff"/><circle cx="74" cy="120" r="2" fill="#fff"/>'
+         + '<ellipse cx="124" cy="110" rx="9" ry="11" fill="#111"/><circle cx="127" cy="106" r="3" fill="#fff"/><circle cx="122" cy="114" r="2" fill="#fff"/>'
+         + '<path d="M88 128 q12 -11 24 0 q1 15 -12 16 q-13 -1 -12 -16z" fill="#F4796B" stroke="#111" stroke-width="6" stroke-linejoin="round"/>';
+  } else if(expr==='worried'){ // ㅅ 눈썹 + 걱정 입
+    face = '<path d="M92 104 q8 -8 16 0" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round"/>'
+         + '<ellipse cx="74" cy="122" rx="6.5" ry="9" fill="#111" transform="rotate(-14 74 122)"/>'
+         + '<ellipse cx="126" cy="116" rx="6.5" ry="9" fill="#111" transform="rotate(14 126 116)"/>'
+         + '<path d="M92 140 q4 -6 8 0 q4 6 8 0" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round"/>';
+  } else { // normal
+    face = '<ellipse cx="76" cy="118" rx="7" ry="9.5" fill="#111"/>'
+         + '<ellipse cx="124" cy="112" rx="7" ry="9.5" fill="#111"/>'
+         + '<path d="M92 136 q4 -6 8 0 q4 6 8 0" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round"/>';
+  }
+  var crown = '';
+  if(opt.crown){
+    crown = '<g transform="rotate(-10 100 78)">'
+          + '<path d="M62 52 L74 82 L96 58 L118 80 L132 48 L138 92 Q100 106 66 96 Z" fill="#F2C94C"/>'
+          + '<circle cx="62" cy="50" r="7" fill="#E0479E"/><circle cx="97" cy="54" r="7" fill="#E0479E"/><circle cx="132" cy="46" r="7" fill="#E0479E"/><circle cx="100" cy="84" r="7" fill="#E0479E"/>'
+          + '</g>';
+  }
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">'
+    // 새싹 잎
+    + '<g fill="#63F2BE">'
+    + '<ellipse cx="72" cy="38" rx="30" ry="19" transform="rotate(-28 72 38)"/>'
+    + '<ellipse cx="130" cy="34" rx="32" ry="19" transform="rotate(24 130 34)"/>'
+    + '<rect x="96" y="44" width="9" height="26" rx="4.5"/>'
+    // 몸통
+    + '<path d="M100 62 C150 62 168 96 166 132 C164 168 136 190 100 190 C64 190 36 168 34 132 C32 96 50 62 100 62 Z"/>'
+    + '</g>'
+    + face + crown
+    + '</svg>';
+}
+
+/* ---------- 데이터 ---------- */
+var PREP = ["despite","in spite of","notwithstanding","because of","due to","owing to","on account of","thanks to","during","prior to","in advance of","following","in case of","in the event of","without","for the purpose of","excluding","barring","aside from","in addition to","along with","instead of","unlike"];
+var CONJ = ["although","though","even though","even if","because","now that","by the time","as soon as","if","unless","provided that","as long as","only if","so that","in order that","except that","as if","as though","whereas","once","while"];
+var ADVB = ["nevertheless","nonetheless","however","therefore","thus","consequently","hence","as a result","meanwhile","in the meantime","previously","beforehand","afterwards","subsequently","thereafter","otherwise","moreover","furthermore","instead","on the other hand","in contrast","conversely","in other words","namely"];
+var CATNAME = ["전치사","접속사","접속부사"];
+
+var QUESTIONS = [
+ {q:"______ the heavy rain, the outdoor festival continued as scheduled.",o:["Although","Despite","Nevertheless","Because"],a:1,w:"빈칸 뒤가 명사(the heavy rain)죠? 그럼 전치사 자리예요!"},
+ {q:"______ the shipment was delayed, the client agreed to extend the deadline.",o:["Because of","Due to","Since","Therefore"],a:2,w:"빈칸 뒤에 주어+동사가 있으니 접속사 자리! Since만 접속사예요."},
+ {q:"The store will remain closed ______ the renovation is complete.",o:["until","by","during","meanwhile"],a:0,w:"뒤에 절이 왔으니 접속사로 쓸 수 있는 until! by는 절을 못 받아요."},
+ {q:"Sales rose sharply ______ the holiday season.",o:["while","during","as soon as","however"],a:1,w:"뒤에 명사(the holiday season) → 전치사 during이에요."},
+ {q:"______ signing the lease, tenants must review all of the building rules.",o:["Prior to","In order that","Beforehand","Once"],a:0,w:"뒤에 동명사(signing)가 왔으니 전치사 자리 → Prior to!"},
+ {q:"The equipment must be inspected ______ it is used for the first time.",o:["before","prior to","in advance of","beforehand"],a:0,w:"뒤에 절 → 접속사로 쓸 수 있는 건 before뿐이에요."},
+ {q:"______ the manager approved the budget, the team began hiring immediately.",o:["Now that","Owing to","Thanks to","Consequently"],a:0,w:"뒤에 절이 왔으니 접속사 Now that이 정답!"},
+ {q:"Attendance at the workshop was low ______ the poor weather.",o:["because","since","owing to","accordingly"],a:2,w:"뒤에 명사 → 전치사 owing to! because/since는 절을 받아요."},
+ {q:"Please submit the report by Friday; ______, the entire project will be delayed.",o:["despite","otherwise","unless","in case of"],a:1,w:"세미콜론 뒤 콤마 → 접속부사 자리! otherwise가 정답이에요."},
+ {q:"______ you confirm your reservation by noon, it will be released to other guests.",o:["Unless","Without","Except for","Otherwise"],a:0,w:"뒤에 절이 왔으니 접속사 Unless가 정답!"},
+ {q:"The seminar was rescheduled ______ a scheduling conflict at the venue.",o:["although","in case","due to","nonetheless"],a:2,w:"뒤에 명사 → 전치사 due to예요."},
+ {q:"Mr. Ortega revised the proposal ______ it would meet the new guidelines.",o:["so that","so as to","in order to","therefore"],a:0,w:"뒤에 절 → 접속사 so that! so as to / in order to는 동사원형 앞이에요."},
+ {q:"______ improve efficiency, the plant installed automated sorting machines.",o:["So that","In order to","Because","Given that"],a:1,w:"뒤에 동사원형(improve) → In order to가 정답!"},
+ {q:"The new remote-work policy applies to all branches ______ the Busan office.",o:["except for","except that","nevertheless","whereas"],a:0,w:"뒤에 명사 → 전치사 except for예요."},
+ {q:"Online orders increased last quarter; ______, in-store sales declined slightly.",o:["whereas","despite","meanwhile","although"],a:2,w:"세미콜론 뒤 → 접속부사 자리! meanwhile이 정답이에요."},
+ {q:"______ the merger was announced, the company's stock rose by 12 percent.",o:["After","Following","Afterward","Subsequently"],a:0,w:"뒤에 절 → 접속사로 쓸 수 있는 After! Following은 전치사예요."},
+ {q:"Registration for the training session will close ______ all of the seats are filled.",o:["as soon as","upon","at once","immediately"],a:0,w:"뒤에 절 → 접속사 as soon as가 정답!"},
+ {q:"______ his limited experience, Mr. Reyes handled the negotiation skillfully.",o:["Given","Given that","Considering that","Nevertheless"],a:0,w:"뒤에 명사 → 전치사 Given! Given that은 절을 받아요."},
+ {q:"The vendor offered an additional discount ______ we ordered in bulk.",o:["provided that","in case of","in the event of","instead of"],a:0,w:"뒤에 절 → 접속사 provided that이 정답!"},
+ {q:"The renovation is nearly finished; ______, the lobby will reopen next week.",o:["as a result","because","so that","despite"],a:0,w:"세미콜론 뒤 콤마 → 접속부사 자리! as a result가 정답이에요."},
+ {q:"______ the flight was delayed for three hours, passengers waited in the lounge.",o:["Due to","Because","Because of","Therefore"],a:1,w:"뒤에 주어+동사 → 접속사 자리! 보기 중 접속사는 Because뿐이에요."},
+ {q:"______ the merger is complete, the two sales teams will be combined.",o:["Owing to","Thanks to","Now that","As a result"],a:2,w:"뒤에 절 → 접속사는 Now that뿐! 나머지는 전치사·접속부사예요."},
+ {q:"Please remain seated ______ the seatbelt sign is turned off.",o:["by","until","during","meanwhile"],a:1,w:"뒤에 절 → 절을 받을 수 있는 건 until뿐! by·during은 전치사예요."},
+ {q:"The board made the announcement ______ the meeting ended.",o:["following","afterward","after","subsequently"],a:2,w:"뒤에 절 → 접속사로 쓸 수 있는 after! following은 전치사예요."},
+ {q:"______ you have any questions, please contact the HR department.",o:["If","In case of","In the event of","Otherwise"],a:0,w:"뒤에 절 → 접속사 If! in case of는 뒤에 명사만 와요."},
+ {q:"Employees must wear ID badges ______ they are in the building.",o:["during","throughout","meanwhile","while"],a:3,w:"뒤에 주어+동사 → 접속사 while! during은 명사 앞에만 써요."},
+ {q:"The manager postponed the meeting ______ everyone could attend.",o:["in order to","so that","so as to","as a result"],a:1,w:"뒤에 절 → 접속사 so that! in order to·so as to는 동사원형 앞이에요."},
+ {q:"Bring an umbrella ______ it rains this afternoon.",o:["in case of","instead of","in case","otherwise"],a:2,w:"뒤에 절 → 접속사 in case! in case of는 명사 앞에만 와요."},
+ {q:"Sales improved rapidly ______ the new campaign was launched.",o:["upon","once","on","immediately"],a:1,w:"뒤에 절 → 접속사 once! upon·on은 전치사예요."},
+ {q:"The vendor will lower the price ______ we sign a two-year contract.",o:["in the event of","owing to","consequently","provided that"],a:3,w:"뒤에 절 → 접속사 provided that뿐이에요!"},
+ {q:"The applicants stayed calm ______ the interview lasted over three hours.",o:["despite","even though","in spite of","nevertheless"],a:1,w:"뒤에 절 → 접속사 even though! despite·in spite of는 명사 앞이에요."},
+ {q:"______ the CEO arrives, the presentation will begin.",o:["Upon","At once","As soon as","Promptly"],a:2,w:"뒤에 절 → 접속사 as soon as! upon은 명사(동명사) 앞이에요."},
+ {q:"No refunds will be issued ______ the item is defective.",o:["without","unless","except for","otherwise"],a:1,w:"뒤에 절 → 접속사 unless! without은 전치사예요."},
+ {q:"The workshop was canceled ______ few people had registered.",o:["due to","owing to","since","hence"],a:2,w:"뒤에 절 → 접속사 since! due to·owing to는 명사 앞이에요."},
+ {q:"Visitors may take photos ______ they do not use flash.",o:["as long as","in the case of","regardless of","however"],a:0,w:"뒤에 절 → 접속사 as long as뿐이에요!"},
+ {q:"______ the road was icy, the delivery arrived on time.",o:["Despite","Notwithstanding","Nonetheless","Although"],a:3,w:"뒤에 절 → 접속사 Although! 나머지는 전치사·접속부사예요."},
+ {q:"Domestic sales rose sharply, ______ overseas sales remained flat.",o:["unlike","whereas","in contrast","on the other hand"],a:1,w:"뒤에 절을 연결 → 접속사 whereas! unlike는 전치사예요."},
+ {q:"All samples must be tested ______ they are shipped to clients.",o:["prior to","in advance of","before","beforehand"],a:2,w:"뒤에 절 → 접속사로 쓸 수 있는 건 before뿐이에요."},
+ {q:"______ the report indicates, profits doubled last quarter.",o:["Unlike","Regarding","Likewise","As"],a:3,w:"뒤에 절 → 접속사 As(~하듯이)! 나머지는 절을 못 받아요."},
+ {q:"The outdoor event will proceed ______ it rains.",o:["in spite of","regardless of","even if","still"],a:2,w:"뒤에 절 → 접속사 even if! in spite of·regardless of는 명사 앞이에요."}
+];
+
+/* ---------- 상태 ---------- */
+var r1Score=0, r2Score=0, combo=0, maxCombo=0;
+var r1Timer=null, r1Left=60;
+var wordQueue=[], curWord=null, r1Lock=false, r1Wrongs=[];
+var CATHINT=["뒤에 명사(구)가 와요","뒤에 주어+동사가 와요","앞 문장이 끝난 뒤에만 와요"];
+var r2Qs=[], qIdx=0, r2Timer=null, r2Left=15, r2Correct=0, wrongs=[];
+
+function $(id){return document.getElementById(id);}
+function show(id){
+  var s=document.querySelectorAll('.screen');
+  for(var i=0;i<s.length;i++) s[i].classList.remove('on');
+  $(id).classList.add('on');
+}
+function shuffle(a){
+  a=a.slice();
+  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}
+  return a;
+}
+function setMesaeng(el,expr,size,opt){ $(el).innerHTML = mesaeng(expr,size,opt); }
+
+/* ---------- 라운드 1 ---------- */
+function buildQueue(){
+  var q=[];
+  PREP.forEach(function(w){q.push({w:w,c:0});});
+  CONJ.forEach(function(w){q.push({w:w,c:1});});
+  ADVB.forEach(function(w){q.push({w:w,c:2});});
+  return shuffle(q);
+}
+function startR1(){
+  r1Score=0;combo=0;maxCombo=0;r1Left=60;r1Lock=false;r1Wrongs=[];
+  wordQueue=buildQueue();
+  $('r1score').textContent='0점';
+  $('r1combo').textContent='';
+  $('r1bar').style.width='100%';
+  $('r1bar').classList.remove('danger');
+  setMesaeng('mesaengR1','normal',72);
+  show('r1');
+  nextWord();
+  clearInterval(r1Timer);
+  r1Timer=setInterval(function(){
+    r1Left-=0.1;
+    var pct=Math.max(0,r1Left/60*100);
+    $('r1bar').style.width=pct+'%';
+    if(r1Left<=10) $('r1bar').classList.add('danger');
+    if(r1Left<=0){
+      clearInterval(r1Timer);
+      setMesaeng('mesaengMid','sparkle',150);
+      show('mid');
+    }
+  },100);
+}
+function nextWord(){
+  if(wordQueue.length===0) wordQueue=buildQueue();
+  curWord=wordQueue.pop();
+  $('r1word').innerHTML=curWord.w;
+  r1Lock=false;
+}
+function answerR1(cat){
+  if(r1Lock||r1Left<=0) return;
+  if(cat===curWord.c){
+    combo++;
+    if(combo>maxCombo) maxCombo=combo;
+    var gain=10+(combo%3===0?5:0);
+    r1Score+=gain;
+    $('r1score').textContent=r1Score+'점';
+    $('r1combo').textContent=combo>=2?combo+' COMBO!':'';
+    setMesaeng('mesaengR1', combo>=3?'sparkle':'wink',72);
+    $('mesaengR1').firstChild.classList.add('jump');
+    document.body.classList.remove('flash-good');void document.body.offsetWidth;document.body.classList.add('flash-good');
+    nextWord();
+  }else{
+    combo=0;
+    $('r1combo').textContent='';
+    var dup=false;
+    for(var d=0;d<r1Wrongs.length;d++){ if(r1Wrongs[d].w===curWord.w){dup=true;break;} }
+    if(!dup) r1Wrongs.push({w:curWord.w,c:curWord.c,chosen:cat});
+    setMesaeng('mesaengR1','worried',72);
+    $('mesaengR1').firstChild.classList.add('shake');
+    document.body.classList.remove('flash-bad');void document.body.offsetWidth;document.body.classList.add('flash-bad');
+    r1Lock=true;
+    $('r1word').innerHTML=curWord.w+'<span class="reveal">정답은 '+CATNAME[curWord.c]+'! </span>';
+    setTimeout(function(){ if(r1Left>0){ setMesaeng('mesaengR1','normal',72); nextWord(); } },800);
+  }
+}
+
+/* ---------- 라운드 2 ---------- */
+function startR2(){
+  r2Score=0;qIdx=0;r2Correct=0;wrongs=[];
+  r2Qs=shuffle(QUESTIONS).slice(0,10);
+  $('r2score').textContent='0점';
+  show('r2');
+  showQ();
+}
+function showQ(){
+  var q=r2Qs[qIdx];
+  $('qnum').textContent='Q'+(qIdx+1)+' / 10';
+  $('qtext').innerHTML=q.q.replace('______','<span class="blank">______</span>');
+  var box=$('opts');box.innerHTML='';
+  var abcd=['(A) ','(B) ','(C) ','(D) '];
+  q.o.forEach(function(opt,i){
+    var b=document.createElement('button');
+    b.textContent=abcd[i]+opt;
+    b.onclick=function(){answerR2(i,b);};
+    box.appendChild(b);
+  });
+  $('fb').className='feedback';
+  $('nextBtn').style.display='none';
+  r2Left=15;
+  $('r2bar').style.width='100%';
+  $('r2bar').classList.remove('danger');
+  clearInterval(r2Timer);
+  r2Timer=setInterval(function(){
+    r2Left-=0.1;
+    var pct=Math.max(0,r2Left/15*100);
+    $('r2bar').style.width=pct+'%';
+    if(r2Left<=5) $('r2bar').classList.add('danger');
+    if(r2Left<=0){clearInterval(r2Timer);answerR2(-1,null);}
+  },100);
+}
+function answerR2(i,btn){
+  clearInterval(r2Timer);
+  var q=r2Qs[qIdx];
+  var buttons=$('opts').children;
+  for(var k=0;k<buttons.length;k++) buttons[k].onclick=null;
+  buttons[q.a].classList.add('correct');
+  if(i===q.a){
+    r2Score+=20;r2Correct++;
+    $('r2score').textContent=r2Score+'점';
+    $('fb').className='feedback good';
+    $('fb').innerHTML='정답이에요! 😊 '+q.w;
+  }else{
+    if(btn) btn.classList.add('wrong');
+    $('fb').className='feedback bad';
+    $('fb').innerHTML=(i===-1?'시간 초과! ':'아쉬워요! ')+q.w;
+    wrongs.push(q);
+  }
+  $('nextBtn').style.display='block';
+  $('nextBtn').textContent=qIdx===9?'결과 보기':'다음';
+}
+function nextQ(){
+  qIdx++;
+  if(qIdx>=10){showResult();return;}
+  showQ();
+}
+
+/* ---------- 결과 ---------- */
+function showResult(){
+  var total=r1Score+r2Score;
+  $('totalScore').textContent=total+'점';
+  $('stR1').textContent=r1Score;
+  $('stR2').textContent=r2Score;
+  $('stCombo').textContent=maxCombo;
+  $('stAcc').textContent=Math.round(r2Correct/10*100)+'%';
+  var title,msg,expr,crown=false;
+  if(total>=500&&r2Correct>=9){ title='👑 전접부 마스터 메생이'; msg='900+ 각 나왔어요 🔥 빈칸 뒤만 보는 눈이 완성됐네요. 이 감각 그대로 실전 가면 돼요!'; expr='happy'; crown=true; }
+  else if(total>=380){ title='800점대 감각 메생이'; msg='거의 다 왔어요! 겸용 단어(before / after / since / until / except)만 잡으면 마스터예요.'; expr='sparkle'; }
+  else if(total>=250){ title='700점대 진입 메생이'; msg='감 잡았어요 😊 접속부사는 문장이 완전히 끝난 뒤에만 온다는 것, 꼭 기억하세요!'; expr='wink'; }
+  else{ title='새싹 메생이'; msg='괜찮아요, 지금 알았으니 된 거예요 😊 전치사 뒤엔 명사, 접속사 뒤엔 주어+동사 — 이것부터 시작해요!'; expr='normal'; }
+  if(total>=500&&r2Correct<9){ msg='점수는 마스터급인데 라운드2 정답률이 아쉬워요! 실전 문제 9개 이상 맞히면 왕관이에요 👑'; }
+  $('lvlTitle').textContent=title;
+  $('lvlMsg').textContent=msg;
+  setMesaeng('mesaengEnd',expr,150,{crown:crown});
+  if(wrongs.length>0||r1Wrongs.length>0){
+    $('wrongbox').style.display='block';
+    var html='';
+    if(r1Wrongs.length>0){
+      html+='<div style="font-size:13px;font-weight:800;color:var(--mint-dark);padding-bottom:4px;">ROUND 1 · 헷갈린 단어</div>';
+      r1Wrongs.forEach(function(x){
+        html+='<div class="item"><b>'+x.w+'</b> → <span class="a">'+CATNAME[x.c]+'</span> ('+CATHINT[x.c]+')'
+            +' <span style="color:var(--gray);">· '+CATNAME[x.chosen]+'로 골랐어요</span></div>';
+      });
+    }
+    if(wrongs.length>0){
+      html+='<div style="font-size:13px;font-weight:800;color:var(--mint-dark);padding:10px 0 4px;">ROUND 2 · 틀린 문제</div>';
+      wrongs.forEach(function(q){
+        html+='<div class="item">'+q.q.replace('______','<b>______</b>')
+            +'<br><span class="a">정답: '+q.o[q.a]+'</span> · '+q.w+'</div>';
+      });
+    }
+    $('wrongList').innerHTML=html;
+  }else{
+    $('wrongbox').style.display='none';
+  }
+  show('result');
+}
+function restart(){
+  clearInterval(r1Timer);clearInterval(r2Timer);
+  setMesaeng('mesaengStart','happy',150);
+  show('start');
+}
+
+/* ---------- 초기화 ---------- */
+setMesaeng('mesaengStart','happy',150);
+setMesaeng('mesaengMid','sparkle',150);
+</script>
+
+
+</body>
+</html>
